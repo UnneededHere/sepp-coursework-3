@@ -96,6 +96,7 @@ public class ReviewEventCommand implements ICommand<Review>{
         }
 
         //create review
+        reviewResult =
         //still to implement Review
         //update review result here
 
