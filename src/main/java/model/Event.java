@@ -126,6 +126,10 @@ public class Event {
         return isOutdoors;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
     /**
      * Set {@link #status} to {@link EventStatus#CANCELLED}
      */
