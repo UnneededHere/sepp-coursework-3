@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * {@link Event} represents an event that can be booked by {@link Consumer}s. Tickets can be free, but they are
@@ -16,6 +17,7 @@ public class Event {
     private final String description;
     private final LocalDateTime startDateTime;
     private final LocalDateTime endDateTime;
+    private List<Review> reviews;                   //List of all the reviews in the event
     private final boolean hasSocialDistancing;
     private final boolean hasAirFiltration;
     private final boolean isOutdoors;
@@ -149,5 +151,9 @@ public class Event {
                 ", status=" + status +
                 ", numTicketsLeft=" + numTicketsLeft +
                 '}';
+    }
+
+    public void addReview(Review review){
+        reviews.add(review);
     }
 }

@@ -35,7 +35,7 @@ public class ReviewEventCommand implements ICommand<Review>{
      * @param context object that provides access to global application state
      * @param view    allows passing information to the user interface
      * @verifies.that an event exists with the corresponding event number
-     * @verifies.that the event is already ove
+     * @verifies.that the event is already over
      * @verifies.that the current user is a logged-in Consumer
      * @verifies.that consumer had at least 1 valid booking (not cancelled by the consumer) at the event
      */
@@ -96,9 +96,8 @@ public class ReviewEventCommand implements ICommand<Review>{
         }
 
         //create review
-        reviewResult =
-        //still to implement Review
-        //update review result here
+        reviewResult = new Review(consumer, event, LocalDateTime.now(), content);
+        event.addReview(reviewResult);
 
         view.displaySuccess(
                 "CancelBookingCommand",
