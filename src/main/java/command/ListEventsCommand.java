@@ -107,7 +107,7 @@ public class ListEventsCommand implements ICommand<List<Event>> {
 
         if (currentUser instanceof Consumer) {
             Consumer consumer = (Consumer) currentUser;
-            Map <String, EventTag> possibleTags = context.getEventState().getPossibleTags()
+            Map <String, EventTag> possibleTags = context.getEventState().getPossibleTags();
             ConsumerPreferences preferences = consumer.getPreferences();
             List<Event> eventsFittingPreferences = context.getEventState().getAllEvents().stream()
                     .filter(event -> eventSatisfiesPreferences(possibleTags, preferences, event))
