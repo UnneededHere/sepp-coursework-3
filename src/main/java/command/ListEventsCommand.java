@@ -35,12 +35,13 @@ public class ListEventsCommand implements ICommand<List<Event>> {
         this.searchDate = searchDate;
     }
 
-    private static boolean eventSatisfiesPreferences(ConsumerPreferences preferences, Event event) {
-        return (!preferences.preferOutdoorsOnly || event.isOutdoors())
-                        && (!preferences.preferAirFiltration || event.hasAirFiltration())
-                        && (!preferences.preferSocialDistancing || event.hasSocialDistancing())
-                        && (preferences.preferredMaxCapacity >= event.getNumTicketsCap()
-                );
+    private static boolean eventSatisfiesPreferences(Map<String, EventTag> possibleTags, EventTagCollection preferences, Event event) {
+        for (String tagTitle : preferences.tags.keySet()) {
+            if (possibleTags.get(tagTitle) != preferences.tags.get(tagTitle)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static List<Event> filterEvents(List<Event> events, boolean activeEventsOnly, LocalDate searchDate) {
@@ -106,9 +107,10 @@ public class ListEventsCommand implements ICommand<List<Event>> {
 
         if (currentUser instanceof Consumer) {
             Consumer consumer = (Consumer) currentUser;
+            Map <String, EventTag> possibleTags = context.getEventState().getPossibleTags()
             ConsumerPreferences preferences = consumer.getPreferences();
             List<Event> eventsFittingPreferences = context.getEventState().getAllEvents().stream()
-                    .filter(event -> eventSatisfiesPreferences(preferences, event))
+                    .filter(event -> eventSatisfiesPreferences(possibleTags, preferences, event))
                     .collect(Collectors.toList());
 
             eventListResult = filterEvents(eventsFittingPreferences, activeEventsOnly, searchDate);

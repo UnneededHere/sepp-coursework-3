@@ -7,7 +7,7 @@ import controller.Context;
 import model.*;
 import view.IView;
 
-public class ListEventReviewsCommand implements ICommand {
+public class ListEventReviewsCommand implements ICommand<List<Review>> {
     private String eventTitle;
     private List<Review> reviews;
     
@@ -42,7 +42,7 @@ public class ListEventReviewsCommand implements ICommand {
     }
 
     @Override
-    public Object getResult() {
+    public List<Review> getResult() {
         return reviews;
     }
 
