@@ -1,11 +1,13 @@
 package state;
 
+import model.EventTag;
 import model.Staff;
 import model.Event;
 import model.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@link IEventState} is an interface representing the portion of application state that contains all the {@link Event}
@@ -50,4 +52,6 @@ public interface IEventState {
                       boolean hasSocialDistancing,
                       boolean hasAirFiltration,
                       boolean isOutdoors);
+
+
 }
