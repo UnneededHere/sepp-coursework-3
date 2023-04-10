@@ -35,6 +35,12 @@ public class ListEventsCommand implements ICommand<List<Event>> {
         this.searchDate = searchDate;
     }
 
+    /**
+     * @param possibleTags Map holding the names and values of the event's tags
+     * @param preferences {@link EventTagCollection} holding a map of tag names with the user's preferences for the value of those tags
+     * @param event {@link Event} object representing the considered event
+     * @return Boolean representing if the event fulfills the user preferences
+     */
     private static boolean eventSatisfiesPreferences(Map<String, EventTag> possibleTags, EventTagCollection preferences, Event event) {
         for (String tagTitle : preferences.tags.keySet()) {
             if (possibleTags.get(tagTitle) != preferences.tags.get(tagTitle)) {
