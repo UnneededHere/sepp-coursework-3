@@ -18,7 +18,7 @@ import java.util.Map;
 public class ReviewEventCommand implements ICommand<Review>{
     private Review reviewResult;
     private long eventNumber;
-    private String content;
+    private String content = "";
 
 
     /**
