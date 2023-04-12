@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * {@link ListEventsMaxDistance} allows anyone to get a list of {@link Event}s available on the system, within a specified distance of a consumer.
+ * Optionally, users can specify a particular {@link LocalDate} to look up events for.
+ */
 public class ListEventsMaxDistance extends ListEventsCommand {
     private TransportMode transportMode;
     private double maxDistance;
@@ -19,12 +23,29 @@ public class ListEventsMaxDistance extends ListEventsCommand {
     private final LocalDate searchDate;
     private List<Event> eventListResult;
 
+    /**
+     * @param userEventsOnly   if true, the returned events will be filtered depending on the logged-in user:
+     *                         for {@link Staff}s only the {@link Event}s they have created,
+     *                         and for {@link Consumer}s only the {@link Event}s that match their {@link ConsumerPreferences}
+     * @param activeEventsOnly if true, returned {@link Event}s will be filtered to contain only {@link Event}s with
+     *                         {@link EventStatus#ACTIVE}
+     * @param searchDate       chosen date to look for events. Can be null. If not null, only {@link Event}s that are
+     *                         happening on {@link #searchDate} (i.e., starting, ending, or in between) will be included
+     * @param transportMode    Specifies the specific mode of transport to consider when working out distance
+     * @param maxDistance      Specifies the upper bound of distance to filter events by
+     */
+
     public ListEventsMaxDistance(boolean userEventsOnly, boolean activeEventsOnly, LocalDate searchDate, TransportMode transportMode, double maxDistance) {
         super(userEventsOnly, activeEventsOnly, searchDate);
         this.transportMode = transportMode;
         this.maxDistance = maxDistance;
     }
 
+    /**
+     * @param context object that provides access to global application state
+     * @param view    allows passing information to the user interface
+     * @verifies.that the consumer has a registered address
+     */
     @Override
     public void execute(Context context, IView view) {
         User currentUser = context.getUserState().getCurrentUser();
