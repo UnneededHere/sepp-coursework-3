@@ -20,7 +20,7 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
     private final String newPhoneNumber;
     private final String newAddress;
     private final String newPassword;
-    private final ConsumerPreferences newPreferences;
+    private final EventTagCollection newPreferences;
 
     /**
      * @param oldPassword    account password before the change, required for extra security verification. Must not be null
@@ -39,14 +39,14 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
                                         String newPhoneNumber,
                                         String newAddress,
                                         String newPassword,
-                                        ConsumerPreferences newPreferences) {
+                                        EventTagCollection newPreferences) {
         this.oldPassword = oldPassword;
         this.newName = newName;
         this.newEmail = newEmail;
         this.newPhoneNumber = newPhoneNumber;
         this.newAddress = newAddress;
         this.newPassword = newPassword;
-        this.newPreferences = newPreferences == null ? new ConsumerPreferences() : newPreferences;
+        this.newPreferences = newPreferences == null ? new EventTagCollection() : newPreferences;
     }
 
     /**
@@ -57,6 +57,8 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
      * @verifies.that oldPassword matches the current user's password
      * @verifies.that there is no other user already registered with the same email address as newEmail
      * @verifies.that currently logged-in user is a Consumer
+     * @verifies.that if an address is provided it is in the correct lat-long format and falls within the map system boundry
+     * @verifies.that newPrefrences only includes known tag names and values
      */
     @Override
     public void execute(Context context, IView view) {
@@ -75,12 +77,42 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
             return;
         }
 
-        if (isProfileUpdateInvalid(context, view, oldPassword, newEmail)) {
+        User currentUser = context.getUserState().getCurrentUser();
+
+        if (currentUser = null) {
+            view.displayFailure(
+                    "UpdateConsumerProfileCommand",
+                    LogStatus.USER_UPDATE_NOT_LOGGED_IN,
+                    Map.of("currentUser", currentUser)
+            );
             successResult = false;
             return;
         }
 
-        User currentUser = context.getUserState().getCurrentUser();
+        if (this.oldPassword != currentUser.password){
+            view.displayFailure(
+                    "UpdateConsumerProfileCommand",
+                    LogStatus.USER_UPDATE_WRONG_PASSWORD,
+                    Map.of("oldPassword", "***")
+            )
+            successResult = false;
+            return;
+        }
+
+        if (context.getUserState().getAllUsers().containsKey(email)) {
+            view.displayFailure(
+                    "UpdateConsumerProfileCommand",
+                    LogStatus.USER_UPDATE_EMAIL_ALREADY_REGISTERED,
+                    Map.of("email", email)
+            );
+            successResult = null;
+            return;
+        }
+
+        if (isProfileUpdateInvalid(context, view, oldPassword, newEmail)) {
+            successResult = false;
+            return;
+        }
 
         if (!(currentUser instanceof Consumer)) {
             view.displayFailure(
@@ -88,6 +120,17 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
                     LogStatus.USER_UPDATE_PROFILE_NOT_CONSUMER);
             successResult = false;
             return;
+        }
+
+        Map<String, EventTag> possibleTags = context.getEventState().getPossibleTags();
+        if (int i = 0; i < newPreferences.size();i++){
+            if (!(possibleTags.containsKey(newPreferences[i])))
+            view.displayFaliure(
+                    "UpdateConsumerProfileCommand"
+                    LogStatus.USER_UPDATE_TAG_DOES_NOT_EXIST
+            );
+            successResult = false;
+            return
         }
 
         changeUserEmail(context, newEmail);
@@ -115,5 +158,9 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
         USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL,
         USER_UPDATE_PROFILE_NOT_CONSUMER,
         USER_UPDATE_PROFILE_SUCCESS
+        USER_UPDATE_NOT_LOGGED_IN
+        USER_UPDATE_WRONG_PASSWORD
+        USER_UPDATE_EMAIL_ALREADY_REGISTERED
+        USER_UPDATE_TAG_DOES_NOT_EXIST
     }
 }
