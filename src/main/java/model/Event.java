@@ -115,6 +115,10 @@ public class Event {
         return reviews;
     }
 
+    public String getAddress() {
+        return venueAddress;
+    }
+
     /**
      * Set {@link #status} to {@link EventStatus#CANCELLED}
      */
