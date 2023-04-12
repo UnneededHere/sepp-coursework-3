@@ -122,6 +122,17 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
             return;
         }
 
+        Map<String, EventTag> possibleTags = context.getEventState().getPossibleTags();
+        if (int i = 0; i < newPreferences.size();i++){
+            if (!(possibleTags.containsKey(newPreferences[i])))
+            view.displayFaliure(
+                    "UpdateConsumerProfileCommand"
+                    LogStatus.USER_UPDATE_TAG_DOES_NOT_EXIST
+            );
+            successResult = false;
+            return
+        }
+
         changeUserEmail(context, newEmail);
         currentUser.updatePassword(newPassword);
         Consumer consumer = (Consumer) currentUser;
@@ -150,5 +161,6 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
         USER_UPDATE_NOT_LOGGED_IN
         USER_UPDATE_WRONG_PASSWORD
         USER_UPDATE_EMAIL_ALREADY_REGISTERED
+        USER_UPDATE_TAG_DOES_NOT_EXIST
     }
 }
