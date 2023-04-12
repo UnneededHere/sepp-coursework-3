@@ -22,7 +22,7 @@ public class ReviewEventCommand implements ICommand<Review>{
 
 
     /**
-     * @param eventNumber event number identifying an {@link model.Event} that was previousy made by
+     * @param eventNumber event number identifying an {@link model.Event} that was previously made by
      * a logged in consumer
      * @param content content of the review being created by the consumer
      */
@@ -47,7 +47,7 @@ public class ReviewEventCommand implements ICommand<Review>{
         if (!(currentUser instanceof Consumer)){
             view.displayFailure(
                     "ReviewEventCommand",
-                    LogStatus.REVIEW_USER_NOT_CONSUMER,
+                    LogStatus.REVIEW_EVENT_USER_NOT_CONSUMER,
                     Map.of("eventNumber", eventNumber,
                             "currentUser", currentUser != null ? currentUser : "none")
             );
@@ -90,7 +90,7 @@ public class ReviewEventCommand implements ICommand<Review>{
         if (!hasBooking){
             view.displayFailure(
                     "ReviewEventCommand",
-                    LogStatus.REVIEW_CUSTOMER_NO_VALID_BOOKING,
+                    LogStatus.REVIEW_EVENT_CUSTOMER_NO_VALID_BOOKING,
                     Map.of("eventNumber", eventNumber)
             );
         }
@@ -101,7 +101,7 @@ public class ReviewEventCommand implements ICommand<Review>{
 
         view.displaySuccess(
                 "CancelBookingCommand",
-                LogStatus.REVIEW_SUCCESS,
+                LogStatus.REVIEW_EVENT_SUCCESS,
                 Map.of("eventNumber", eventNumber,
                         "content", content)
         );
@@ -114,10 +114,10 @@ public class ReviewEventCommand implements ICommand<Review>{
     }
 
     private enum LogStatus {
-        REVIEW_SUCCESS,
-        REVIEW_USER_NOT_CONSUMER,
+        REVIEW_EVENT_SUCCESS,
+        REVIEW_EVENT_USER_NOT_CONSUMER,
         REVIEW_EVENT_NOT_FOUND,
         REVIEW_EVENT_NOT_OVER,
-        REVIEW_CUSTOMER_NO_VALID_BOOKING
+        REVIEW_EVENT_CUSTOMER_NO_VALID_BOOKING
     }
 }
