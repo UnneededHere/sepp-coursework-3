@@ -1,33 +1,46 @@
-import model.Consumer
-import controller.Controller
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import model.Booking;
+import model.Consumer;
+import model.Event;
+import model.EventType;
 
 public class TestConsumer extends ConsoleTest{
 
-    @test
+    @Test
     @DisplayName("testing that the notify method works as intended")
     public void notifyTest(){
-        Controller controller = createConsumer(controller);
-        assertEquals("Message to i-would-never-steal-a@dog.xd and 01324456897: Test message",
-        controller.notify("Test message"),
-        "message should send normally")
+        Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
+        startOutputCapture();
+        consumer.notify("test");
+        stopOutputCaptureAndCompare(
+                "Message to johnsmith@gmail.com and 012345678910: test"
+        );
     }
 
-    @test
+    @Test
     @DisplayName("testing that the addBooking method works as intended")
     public void addBookingTest(){
-        Controller controller = createConsumerAndBookFirstEvent(controller,1);
-        assertEquals(["Puppies against depression"],
-        controller.getBookings(),
-        "if addBooking works the bookings from the consumer should be an array containing 'Puppies against depression'")
+        Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),true,true,true);
+        Booking booking = new Booking(1,consumer,event,1,LocalDateTime.now());
+        consumer.addBooking(booking);
+        Assertions.assertEquals(booking,
+        consumer.getBookings(),
+        "if addBooking works the bookings from the consumer should be an array containing 'Puppies against depression'");
     }
 
-    @test
+    @Test
     @DisplayName("testing that the toString method works as intended")
     public void consumerToStringTest(){
-        Controller controller = createConsumerAndBookFirstEvent(controller,1);
-        assertEquals("Consumer{bookings=Puppies against Depression, name='Chihuahua Fan\', phoneNumber='01324456897\', address='55.94872684464941 -3.199892044473183\', preferences=}",
-        controller.toString(),
-        "checks wether toString works correctly")
+        Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
+        Assertions.assertEquals("Consumer{bookings=, name='John SMith\', phoneNumber='012345678910\', address='55.94872684464941 -3.199892044473183\', preferences=}",
+        consumer.toString(),
+        "checks wether toString works correctly");
     }
 
 }
