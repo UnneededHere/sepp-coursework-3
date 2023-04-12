@@ -159,4 +159,6 @@ public class ConsoleTest {
         controller.runCommand(eventsCmd);
         return eventsCmd.getResult();
     }
+
+
 }

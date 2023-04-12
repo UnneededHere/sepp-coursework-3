@@ -18,9 +18,8 @@ public class Event {
     private final LocalDateTime startDateTime;
     private final LocalDateTime endDateTime;
     private List<Review> reviews;                   //List of all the reviews in the event
-    private final boolean hasSocialDistancing;
-    private final boolean hasAirFiltration;
-    private final boolean isOutdoors;
+    private final EventTagCollection tags;
+
 
     private EventStatus status;
     private int numTicketsLeft;
@@ -38,9 +37,6 @@ public class Event {
      *                            or if payment is required on entry in addition to ticket booking
      * @param startDateTime       date and time when the performance will begin
      * @param endDateTime         date and time when the performance will end
-     * @param hasSocialDistancing whether social distancing will be in place at the performance
-     * @param hasAirFiltration    whether air filtration will be in place at the performance
-     * @param isOutdoors          whether the performance will take place outdoors
      */
     public Event(long eventNumber,
                  String title,
@@ -51,9 +47,7 @@ public class Event {
                  String description,
                  LocalDateTime startDateTime,
                  LocalDateTime endDateTime,
-                 boolean hasSocialDistancing,
-                 boolean hasAirFiltration,
-                 boolean isOutdoors) {
+                 EventTagCollection tags) {
         this.eventNumber = eventNumber;
         this.title = title;
         this.type = type;
@@ -63,9 +57,8 @@ public class Event {
         this.description = description;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.hasSocialDistancing = hasSocialDistancing;
-        this.hasAirFiltration = hasAirFiltration;
-        this.isOutdoors = isOutdoors;
+        this.tags = tags;
+
 
         this.status = EventStatus.ACTIVE;
         this.numTicketsLeft = numTicketsCap;
@@ -114,16 +107,8 @@ public class Event {
         return endDateTime;
     }
 
-    public boolean hasSocialDistancing() {
-        return hasSocialDistancing;
-    }
-
-    public boolean hasAirFiltration() {
-        return hasAirFiltration;
-    }
-
-    public boolean isOutdoors() {
-        return isOutdoors;
+    public EventTagCollection getTags() {
+        return tags;
     }
 
     public List<Review> getReviews() {
@@ -149,9 +134,7 @@ public class Event {
                 ", description='" + description + '\'' +
                 ", startDateTime=" + startDateTime +
                 ", endDateTime=" + endDateTime +
-                ", hasSocialDistancing=" + hasSocialDistancing +
-                ", hasAirFiltration=" + hasAirFiltration +
-                ", isOutdoors=" + isOutdoors +
+                ", tags=" + tags.tags +
                 ", status=" + status +
                 ", numTicketsLeft=" + numTicketsLeft +
                 '}';

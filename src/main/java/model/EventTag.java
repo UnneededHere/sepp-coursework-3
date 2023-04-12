@@ -13,16 +13,4 @@ public class EventTag {
         this.values = values;
         this.defaultValue = defaultValue;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

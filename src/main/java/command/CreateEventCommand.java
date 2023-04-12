@@ -1,14 +1,21 @@
 package command;
 
 import controller.Context;
-import model.Staff;
-import model.Event;
-import model.EventType;
-import model.User;
+import model.*;
 import view.IView;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import com.graphhopper.GHRequest;
+import com.graphhopper.GHResponse;
+import com.graphhopper.GraphHopper;
+import com.graphhopper.ResponsePath;
+import com.graphhopper.config.CHProfile;
+import com.graphhopper.config.LMProfile;
+import com.graphhopper.config.Profile;
+import com.graphhopper.routing.weighting.custom.CustomProfile;
+import com.graphhopper.util.*;
+import com.graphhopper.util.shapes.GHPoint;
 
 /**
  * {@link CreateEventCommand} allows {@link Staff}s to create new {@link Event}s.
@@ -23,9 +30,7 @@ public class CreateEventCommand implements ICommand<Event> {
     private final String description;
     private final LocalDateTime startDateTime;
     private final LocalDateTime endDateTime;
-    private final boolean hasSocialDistancing;
-    private final boolean hasAirFiltration;
-    private final boolean isOutdoors;
+    private final EventTagCollection tags;
     private Event eventResult;
 
     /**
@@ -38,13 +43,6 @@ public class CreateEventCommand implements ICommand<Event> {
      * @param description         additional details about the event
      * @param startDateTime       indicates the date and time when this performance is due to start
      * @param endDateTime         indicates the date and time when this performance is due to end
-     * @param hasSocialDistancing indicates whether social distancing will be enforced at this performance.
-     *                            Users can filter events based on this field if they have Covid-19 safety preferences
-     * @param hasAirFiltration    indicates whether air filtration will be in place at this performance.
-     *                            Users can filter events based on this field if they have Covid-19 safety preferences
-     * @param isOutdoors          indicates whether this performance will take place outdoors. Normally would imply
-     *                            {@link #hasAirFiltration}, but kept as a separate field for simplicity.
-     *                            Users can filter events based on this field if they have Covid-19 safety preferences
      */
     public CreateEventCommand(String title,
                               EventType type,
@@ -54,9 +52,7 @@ public class CreateEventCommand implements ICommand<Event> {
                               String description,
                               LocalDateTime startDateTime,
                               LocalDateTime endDateTime,
-                              boolean hasSocialDistancing,
-                              boolean hasAirFiltration,
-                              boolean isOutdoors) {
+                              EventTagCollection tags) {
         this.title = title;
         this.type = type;
         this.numTickets = numTickets;
@@ -65,9 +61,7 @@ public class CreateEventCommand implements ICommand<Event> {
         this.description = description;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
-        this.hasSocialDistancing = hasSocialDistancing;
-        this.hasAirFiltration = hasAirFiltration;
-        this.isOutdoors = isOutdoors;
+        this.tags = tags;
     }
 
     /**
@@ -151,10 +145,35 @@ public class CreateEventCommand implements ICommand<Event> {
             eventResult = null;
             return;
         }
+        Map<String, EventTag> possibleTags = context.getEventState().getPossibleTags();
+        boolean validTags = true;
+        for (Map.Entry<String, String> entry : tags.tags.entrySet()) {
+            String tagName = entry.getKey();
+            String tagValue = entry.getValue();
+            if (!possibleTags.containsKey(tagName)){
+                validTags = false;
+            }
+            else if (!possibleTags.get(tagName).values.contains(tagValue)){
+                validTags = false;
+            }
+
+        }
+
+        if (!validTags) {
+            view.displayFailure(
+                    "CreateEventCommand",
+                    LogStatus.CREATE_EVENT_TAGS_INVALID,
+                    Map.of("tags", tags.tags)
+            );
+            eventResult = null;
+            return;
+        }
+
+
 
         Event event = context.getEventState().createEvent(title, type, numTickets,
                 ticketPriceInPence, venueAddress, description,
-                startDateTime, endDateTime, hasSocialDistancing, hasAirFiltration, isOutdoors);
+                startDateTime, endDateTime, tags);
         view.displaySuccess(
                 "CreateEventCommand",
                 LogStatus.CREATE_EVENT_SUCCESS,
@@ -165,12 +184,14 @@ public class CreateEventCommand implements ICommand<Event> {
         eventResult = event;
     }
 
+
     private enum LogStatus {
         CREATE_EVENT_USER_NOT_STAFF,
         CREATE_EVENT_START_AFTER_END,
         CREATE_EVENT_IN_THE_PAST,
         CREATE_EVENT_TITLE_AND_TIME_CLASH,
         CREATE_EVENT_NEGATIVE_TICKET_PRICE,
+        CREATE_EVENT_TAGS_INVALID,
         CREATE_EVENT_SUCCESS,
     }
 }
