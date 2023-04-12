@@ -50,7 +50,7 @@ public class ListEventsCommand implements ICommand<List<Event>> {
         return true;
     }
 
-    private static List<Event> filterEvents(List<Event> events, boolean activeEventsOnly, LocalDate searchDate) {
+    protected static List<Event> filterEvents(List<Event> events, boolean activeEventsOnly, LocalDate searchDate) {
         Stream<Event> filteredEvents = events.stream();
         if (activeEventsOnly) {
             filteredEvents = filteredEvents.filter(event -> event.getStatus() == EventStatus.ACTIVE);
@@ -114,7 +114,7 @@ public class ListEventsCommand implements ICommand<List<Event>> {
         if (currentUser instanceof Consumer) {
             Consumer consumer = (Consumer) currentUser;
             Map <String, EventTag> possibleTags = context.getEventState().getPossibleTags();
-            ConsumerPreferences preferences = consumer.getPreferences();
+            EventTagCollection preferences = consumer.getPreferences();
             List<Event> eventsFittingPreferences = context.getEventState().getAllEvents().stream()
                     .filter(event -> eventSatisfiesPreferences(possibleTags, preferences, event))
                     .collect(Collectors.toList());

@@ -52,6 +52,10 @@ public class Consumer extends User {
         this.preferences = preferences;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
