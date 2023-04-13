@@ -37,6 +37,7 @@ public class Event {
      *                            or if payment is required on entry in addition to ticket booking
      * @param startDateTime       date and time when the performance will begin
      * @param endDateTime         date and time when the performance will end
+     * @param tags                event tags that the event uses and the values they take
      */
     public Event(long eventNumber,
                  String title,

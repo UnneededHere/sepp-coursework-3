@@ -37,6 +37,7 @@ public interface IEventState {
      * @param description         additional details about the event
      * @param startDateTime       date and time when the new performance will begin
      * @param endDateTime         date and time when the new performance will end
+     * @param tags                list of all the Event tags and their values for this event
      * @return The newly created {@link Event}
      */
     Event createEvent(String title,

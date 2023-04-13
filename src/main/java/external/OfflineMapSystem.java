@@ -12,12 +12,20 @@ import com.graphhopper.util.*;
 import com.graphhopper.util.shapes.BBox;
 import com.graphhopper.util.shapes.GHPoint;
 import model.TransportMode;
+import state.IEventState;
 
 import java.util.Locale;
 
+/**
+ * {@link OfflineMapSystem} is a concrete implementation of {@link MapSystem}.
+ */
 
 public class OfflineMapSystem implements MapSystem{
     private final GraphHopper hopper;
+
+    /**
+     *Initialises the mapping system using the given scotland-latest.osm file
+     */
 
     public OfflineMapSystem(){
         hopper = new GraphHopper();
@@ -32,6 +40,7 @@ public class OfflineMapSystem implements MapSystem{
         hopper.getLMPreparationHandler().setLMProfiles(new LMProfile("car"), new LMProfile("bike"), new LMProfile("foot"), new LMProfile("wheelchair"));
         hopper.importOrLoad();
     }
+
 
     @Override
     public GHPoint convertToCoordinates(String coordinatesString) {
@@ -82,11 +91,6 @@ public class OfflineMapSystem implements MapSystem{
 
     @Override
     public void close() {
-        // No need to clean up any resources in the mock system. But it may be necessary in a real system,
-        // e.g., we might want to close any open network sockets or files
     }
 
-    private enum LogStatus {
-        ADD_EVENT_TAG_SUCCESS,
-    }
 }

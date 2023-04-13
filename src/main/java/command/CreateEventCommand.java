@@ -43,6 +43,7 @@ public class CreateEventCommand implements ICommand<Event> {
      * @param description         additional details about the event
      * @param startDateTime       indicates the date and time when this performance is due to start
      * @param endDateTime         indicates the date and time when this performance is due to end
+     * @param tags                The collection of {@link EventTag} names and values that want to be set for this event
      */
     public CreateEventCommand(String title,
                               EventType type,
@@ -80,6 +81,9 @@ public class CreateEventCommand implements ICommand<Event> {
      * @verifies.that event startDateTime is in the future
      * @verifies.that no other event with the same title has the same startDateTime and endDateTime
      * @verifies.that the event ticket price is non-negative
+     * @verifies.that if a venue address is provided, it is a valid lat-long format and falls
+     * within map system boundaries
+     * @verifies.that event tags, if provided, only include known tag names and values
      */
     @Override
     public void execute(Context context, IView view) {

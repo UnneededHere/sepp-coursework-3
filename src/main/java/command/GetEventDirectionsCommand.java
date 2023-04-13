@@ -13,10 +13,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * {@link GetEventDirectionsCommand } allows {@link model.Consumer Consumers} to retrieve the directions to an
+ * {@link Event}. The command applies for the currently logged-in user.
+ */
+
 public class GetEventDirectionsCommand implements ICommand<String[]>{
     private final long eventNumber;
     private final TransportMode transportMode;
     private String[] directionsResult;
+
+    /**
+     * @param eventNumber event number uniquely identifying a {@link Event} that was previously
+     *                      made by a {@link Staff} member.
+     * @param transportMode the method of transport that the {@link Consumer} would like the directions to show a route for.
+     */
 
     public GetEventDirectionsCommand(long eventNumber,
                               TransportMode transportMode) {
@@ -24,10 +35,23 @@ public class GetEventDirectionsCommand implements ICommand<String[]>{
         this.transportMode = transportMode;
     }
 
+    /**
+     * @return List of Directions if successful and null otherwise
+     */
+
     @Override
     public String[] getResult() {
         return directionsResult;
     }
+
+    /**
+     * @param context object that provides access to global application state
+     * @param view    allows passing information to the user interface
+     * @verifies.that there is an event corresponding to the provided eventNumber
+     * @verifies.that the event includes a venueAddress
+     * @verifies.that the current user is a Consumer
+     * @verifies.that the consumer's profile includes an address
+     */
 
     @Override
     public void execute(Context context, IView view) {
