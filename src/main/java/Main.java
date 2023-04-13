@@ -1,3 +1,5 @@
+import com.graphhopper.GraphHopper;
+import com.graphhopper.GraphHopperConfig;
 import command.*;
 import controller.Context;
 import controller.Controller;
@@ -152,7 +154,12 @@ public class Main {
      * Why did we not do this? It makes testing more difficult for you and security is not our main goal here - this
      * will be the topic of next year's Computer Security course.
      */
+
+
+
+
     public static void main(String[] args) {
+
         try (Context context = new Context(
                 "The University of Edinburgh, School of Informatics",
                 "10 Crichton Street, Edinburgh EH8 9AB, United Kingdom",

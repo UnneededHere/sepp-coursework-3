@@ -11,7 +11,7 @@ public class Consumer extends User {
     private String name;
     private String phoneNumber;
     private String address;
-    private ConsumerPreferences preferences;
+    private EventTagCollection preferences;
 
     /**
      * Create a new Consumer with an empty list of bookings and default Covid-19 preferences

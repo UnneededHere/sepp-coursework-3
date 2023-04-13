@@ -1,10 +1,7 @@
 package command;
 
 import controller.Context;
-import model.Consumer;
-import model.ConsumerPreferences;
-import model.Event;
-import model.User;
+import model.*;
 import view.IView;
 
 import java.util.Map;
@@ -79,7 +76,7 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
 
         User currentUser = context.getUserState().getCurrentUser();
 
-        if (currentUser = null) {
+        if (currentUser == null) {
             view.displayFailure(
                     "UpdateConsumerProfileCommand",
                     LogStatus.USER_UPDATE_NOT_LOGGED_IN,
@@ -125,8 +122,8 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
         Map<String, EventTag> possibleTags = context.getEventState().getPossibleTags();
         if (int i = 0; i < newPreferences.size();i++){
             if (!(possibleTags.containsKey(newPreferences[i])))
-            view.displayFaliure(
-                    "UpdateConsumerProfileCommand"
+            view.displayFailure(
+                    "UpdateConsumerProfileCommand",
                     LogStatus.USER_UPDATE_TAG_DOES_NOT_EXIST
             );
             successResult = false;
@@ -157,10 +154,10 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
     private enum LogStatus {
         USER_UPDATE_PROFILE_FIELDS_CANNOT_BE_NULL,
         USER_UPDATE_PROFILE_NOT_CONSUMER,
-        USER_UPDATE_PROFILE_SUCCESS
-        USER_UPDATE_NOT_LOGGED_IN
-        USER_UPDATE_WRONG_PASSWORD
-        USER_UPDATE_EMAIL_ALREADY_REGISTERED
+        USER_UPDATE_PROFILE_SUCCESS,
+        USER_UPDATE_NOT_LOGGED_IN,
+        USER_UPDATE_WRONG_PASSWORD,
+        USER_UPDATE_EMAIL_ALREADY_REGISTERED,
         USER_UPDATE_TAG_DOES_NOT_EXIST
     }
 }
