@@ -86,21 +86,21 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
             return;
         }
 
-        if (this.oldPassword != currentUser.password){
+        if (!currentUser.checkPasswordMatch(oldPassword)){
             view.displayFailure(
                     "UpdateConsumerProfileCommand",
                     LogStatus.USER_UPDATE_WRONG_PASSWORD,
                     Map.of("oldPassword", "***")
-            )
+            );
             successResult = false;
             return;
         }
 
-        if (context.getUserState().getAllUsers().containsKey(email)) {
+        if (context.getUserState().getAllUsers().containsKey(newEmail)) {
             view.displayFailure(
                     "UpdateConsumerProfileCommand",
                     LogStatus.USER_UPDATE_EMAIL_ALREADY_REGISTERED,
-                    Map.of("email", email)
+                    Map.of("email", newEmail)
             );
             successResult = null;
             return;
@@ -120,14 +120,14 @@ public class UpdateConsumerProfileCommand extends UpdateProfileCommand {
         }
 
         Map<String, EventTag> possibleTags = context.getEventState().getPossibleTags();
-        if (int i = 0; i < newPreferences.size();i++){
+        for (int i = 0; i < possibleTags.size();i++){
             if (!(possibleTags.containsKey(newPreferences[i])))
             view.displayFailure(
                     "UpdateConsumerProfileCommand",
                     LogStatus.USER_UPDATE_TAG_DOES_NOT_EXIST
             );
             successResult = false;
-            return
+            return;
         }
 
         changeUserEmail(context, newEmail);

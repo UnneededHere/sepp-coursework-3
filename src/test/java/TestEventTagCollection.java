@@ -12,8 +12,8 @@ public class TestEventTagCollection extends ConsoleTest{
     @DisplayName("testing that the getValueFor method works as intended")
     public void notifyTest(){
         EventTagCollection collection = new EventTagCollection();
-        Assertions.assertEquals(X,
-        collection.getValueFor(),
+        Assertions.assertEquals(false,
+        collection.getValueFor("hasSocialDistancing"),
         "if getValueFor works the value gotten should be 'X'");
     }
 
@@ -21,8 +21,8 @@ public class TestEventTagCollection extends ConsoleTest{
     @DisplayName("testing that the getValueFor method works as intended")
     public void notifyTest2(){
         EventTagCollection collection = new EventTagCollection();
-        Assertions.assertEquals(Y,
-        collection.getValueFor(),
+        Assertions.assertEquals(false,
+        collection.getValueFor("hasAirFiltraion"),
         "if getValueFor works the value gotten should be 'Y'");
     }
 }

@@ -37,7 +37,7 @@ public class TestConsumer extends ConsoleTest{
     @DisplayName("testing that the addBooking method works as intended")
     public void addBookingTest(){
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),true,true,true);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
         Booking booking = new Booking(1,consumer,event,1,LocalDateTime.now());
         consumer.addBooking(booking);
         Assertions.assertEquals(booking,
@@ -49,12 +49,13 @@ public class TestConsumer extends ConsoleTest{
     @DisplayName("testing that the addBooking method works as intended")
     public void addBookingTest2(){
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),true,true,true);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
         Booking booking2 = new Booking(1,consumer,event,2,LocalDateTime.now());
         consumer.addBooking(booking2);
         Assertions.assertEquals(booking2,
         consumer.getBookings(),
         "if addBooking works the bookings from the consumer should be just the object 'booking2");
+    }
 
     @Test
     @DisplayName("testing that the toString method works as intended")
@@ -73,5 +74,4 @@ public class TestConsumer extends ConsoleTest{
         consumer.toString(),
         "checks wether toString works correctly");
     }
-
 }
