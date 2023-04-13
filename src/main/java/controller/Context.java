@@ -1,6 +1,8 @@
 package controller;
 
+import external.MapSystem;
 import external.MockPaymentSystem;
+import external.OfflineMapSystem;
 import external.PaymentSystem;
 import state.*;
 
@@ -21,6 +23,7 @@ public class Context implements AutoCloseable {
     private final IUserState userState;
     private final IEventState eventState;
     private final IBookingState bookingState;
+    private final MapSystem mapSystem;
 
     /**
      * Initialises all the state members with default constructors of the concrete implementations:
@@ -40,6 +43,7 @@ public class Context implements AutoCloseable {
         this.userState = new UserState();
         this.eventState = new EventState();
         this.bookingState = new BookingState();
+        this.mapSystem = new OfflineMapSystem();
     }
 
     /**
@@ -57,6 +61,7 @@ public class Context implements AutoCloseable {
         userState = new UserState(other.userState);
         eventState = new EventState(other.eventState);
         bookingState = new BookingState(other.bookingState);
+        mapSystem = new OfflineMapSystem();
     }
 
     public String getOrgName() { return orgName; }
@@ -84,6 +89,8 @@ public class Context implements AutoCloseable {
     public IEventState getEventState() {
         return eventState;
     }
+
+    public MapSystem getMapSystem() { return mapSystem; }
 
     /**
      * Closes this resource, relinquishing any underlying resources.

@@ -169,7 +169,27 @@ public class CreateEventCommand implements ICommand<Event> {
             return;
         }
 
-
+        if (venueAddress != null) {
+            if (context.getMapSystem().convertToCoordinates(venueAddress) == null){
+                view.displayFailure(
+                        "CreateEventCommand",
+                        LogStatus.CREATE_EVENT_ADDRESS_INVALID,
+                        Map.of("address", venueAddress)
+                );
+                eventResult = null;
+                return;
+            }
+            GHPoint address = context.getMapSystem().convertToCoordinates(venueAddress);
+            if (!context.getMapSystem().isPointWithinMapBounds(address)){
+                view.displayFailure(
+                        "CreateEventCommand",
+                        LogStatus.CREATE_EVENT_ADDRESS_OUT_OF_RANGE,
+                        Map.of("address", venueAddress)
+                );
+                eventResult = null;
+                return;
+            }
+        }
 
         Event event = context.getEventState().createEvent(title, type, numTickets,
                 ticketPriceInPence, venueAddress, description,
@@ -192,6 +212,8 @@ public class CreateEventCommand implements ICommand<Event> {
         CREATE_EVENT_TITLE_AND_TIME_CLASH,
         CREATE_EVENT_NEGATIVE_TICKET_PRICE,
         CREATE_EVENT_TAGS_INVALID,
+        CREATE_EVENT_ADDRESS_INVALID,
+        CREATE_EVENT_ADDRESS_OUT_OF_RANGE,
         CREATE_EVENT_SUCCESS,
     }
 }

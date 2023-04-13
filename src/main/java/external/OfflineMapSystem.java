@@ -36,6 +36,22 @@ public class OfflineMapSystem implements MapSystem{
     @Override
     public GHPoint convertToCoordinates(String coordinatesString) {
         String[] coordinates = coordinatesString.split(" ");
+        try
+        {
+            Double.parseDouble(coordinates[0]);
+        }
+        catch(NumberFormatException e)
+        {
+            return null;
+        }
+        try
+        {
+            Double.parseDouble(coordinates[1]);
+        }
+        catch(NumberFormatException e)
+        {
+            return null;
+        }
         GHPoint ghPoint = new GHPoint(Double.parseDouble(coordinates[0]), Double.parseDouble(coordinates[1]));
         return ghPoint;
     }
@@ -68,5 +84,9 @@ public class OfflineMapSystem implements MapSystem{
     public void close() {
         // No need to clean up any resources in the mock system. But it may be necessary in a real system,
         // e.g., we might want to close any open network sockets or files
+    }
+
+    private enum LogStatus {
+        ADD_EVENT_TAG_SUCCESS,
     }
 }
