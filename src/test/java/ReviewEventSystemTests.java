@@ -3,6 +3,7 @@ import command.CreateEventCommand;
 import command.ReviewEventCommand;
 import controller.Controller;
 import model.Event;
+import model.EventTagCollection;
 import model.EventType;
 import org.junit.jupiter.api.Test;
 
@@ -26,9 +27,7 @@ public class ReviewEventSystemTests extends ConsoleTest{
                 "Please be prepared to pay 2.50 pounds on entry",
                 LocalDateTime.now().minusHours(10),
                 LocalDateTime.now().minusHours(5),
-                false,
-                false,
-                true
+                new EventTagCollection()
         );
 
         controller.runCommand(eventCmd);
