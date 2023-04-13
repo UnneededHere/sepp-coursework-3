@@ -36,4 +36,14 @@ public class EventTagCollection {
             this.tags.put(splitNameAndValue[0], splitNameAndValue[1]);
         }
     }
+
+    /**
+     * Finds the value that is set for a given tag
+     *
+     * @param name     the name of the tag the value is wanted from
+     */
+
+    public String getValueFor(String name){
+        return tags.get(name);
+    }
 }
