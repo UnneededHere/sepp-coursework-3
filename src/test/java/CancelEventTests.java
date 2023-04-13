@@ -2,6 +2,7 @@ import command.*;
 import controller.Context;
 import controller.Controller;
 import model.Event;
+import model.EventTagCollection;
 import model.EventType;
 import org.junit.jupiter.api.Test;
 
@@ -158,9 +159,7 @@ public class CancelEventTests extends ConsoleTest {
                 "Lady Gaga and Ariana Grande will be performing in a duet",
                 LocalDateTime.now().minusDays(6),
                 LocalDateTime.now().minusDays(6).plusHours(3),
-                false,
-                true,
-                true
+                new EventTagCollection()
         );
         long eventNumber = event.getEventNumber();
 
@@ -192,9 +191,7 @@ public class CancelEventTests extends ConsoleTest {
                 "Lady Gaga and Ariana Grande will be performing in a duet",
                 LocalDateTime.now().minusMinutes(5),
                 LocalDateTime.now().plusHours(3),
-                false,
-                true,
-                true
+                new EventTagCollection()
         );
         long eventNumber = event.getEventNumber();
 

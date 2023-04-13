@@ -1,7 +1,12 @@
 package command;
 
 import controller.Context;
+import model.Consumer;
+import model.Staff;
+import model.User;
 import view.IView;
+
+import java.util.Map;
 
 public class LoadAppStateCommand {
     private Boolean successResult;
@@ -26,10 +31,19 @@ public class LoadAppStateCommand {
      */
     public void execute(Context context, IView view){
 
+        //check if logged-in user was a staff member
+        User currentUser = context.getUserState().getCurrentUser();
+        if (!(currentUser instanceof Staff)){
+            view.displayFailure(
+                    "ReviewEventCommand",
+                    LogStatus.LOAD_APP_STATE_NOT_STAFF,
+                    Map.of("filename", filename,
+                            "currentUser", currentUser != null ? currentUser : "none")
+            );
+            return;
+        }
 
-
-
-
+        //Check if tags clash
 
 
     }
