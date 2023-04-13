@@ -1,10 +1,16 @@
 package command;
 
+import com.graphhopper.ResponsePath;
+import com.graphhopper.util.Instruction;
+import com.graphhopper.util.InstructionList;
+import com.graphhopper.util.Translation;
+import com.graphhopper.util.shapes.GHPoint;
 import controller.Context;
 import model.*;
 import view.IView;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class GetEventDirectionsCommand implements ICommand<String[]>{
@@ -67,6 +73,18 @@ public class GetEventDirectionsCommand implements ICommand<String[]>{
             directionsResult = null;
             return;
         }
+
+        String fromString = ((Consumer) currentUser).getAddress();
+        GHPoint from = context.getMapSystem().convertToCoordinates(fromString);
+        GHPoint to = context.getMapSystem().convertToCoordinates(event.getAddress());
+        ResponsePath path = context.getMapSystem().routeBetweenPoints(transportMode, from, to);
+        InstructionList il = path.getInstructions();
+        Translation tr = context.getMapSystem().getTranslation();
+        ArrayList<String> ar = new ArrayList<String>();
+        for (Instruction instruction : il) {
+            ar.add("distance " + instruction.getDistance() + " for instruction: " + instruction.getTurnDescription(tr));
+        }
+        directionsResult = ar.toArray(new String[0]);
 
     }
     private enum LogStatus {
