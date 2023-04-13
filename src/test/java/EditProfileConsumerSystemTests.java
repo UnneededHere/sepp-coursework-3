@@ -1,13 +1,14 @@
 import controller.Controller;
 import org.junit.jupiter.api.BeforeAll;
 
-public class ListEventsConsumerSystemTests extends ConsoleTest{
-
+public class EditProfileConsumerSystemTests extends ConsoleTest{
     private Controller controller;
     @BeforeAll
     void setUp(){
         controller = createController();
     }
+
+
 
 
 }
