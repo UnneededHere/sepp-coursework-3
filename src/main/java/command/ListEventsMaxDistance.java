@@ -8,13 +8,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * {@link ListEventsMaxDistance} allows anyone to get a list of {@link Event}s available on the system, within a specified distance of a consumer.
  * Optionally, users can specify a particular {@link LocalDate} to look up events for.
  */
 public class ListEventsMaxDistance extends ListEventsCommand {
+
     private TransportMode transportMode;
     private double maxDistance;
 
@@ -24,21 +24,27 @@ public class ListEventsMaxDistance extends ListEventsCommand {
     private List<Event> eventListResult;
 
     /**
-     * @param userEventsOnly   if true, the returned events will be filtered depending on the logged-in user:
-     *                         for {@link Staff}s only the {@link Event}s they have created,
-     *                         and for {@link Consumer}s only the {@link Event}s that match their {@link ConsumerPreferences}
-     * @param activeEventsOnly if true, returned {@link Event}s will be filtered to contain only {@link Event}s with
-     *                         {@link EventStatus#ACTIVE}
-     * @param searchDate       chosen date to look for events. Can be null. If not null, only {@link Event}s that are
-     *                         happening on {@link #searchDate} (i.e., starting, ending, or in between) will be included
-     * @param transportMode    Specifies the specific mode of transport to consider when working out distance
-     * @param maxDistance      Specifies the upper bound of distance to filter events by
+     * @param userEventsOnly    if true, the returned events will be filtered depending on the logged-in user:
+     *                          for {@link Staff}s only the {@link Event}s they have created,
+     *                          and for {@link Consumer}s only the {@link Event}s that match their {@link ConsumerPreferences}
+     * @param activeEventsOnly  if true, returned {@link Event}s will be filtered to contain only {@link Event}s with
+     *                          {@link EventStatus#ACTIVE}
+     * @param searchDate        chosen date to look for events. Can be null. If not null, only {@link Event}s that are
+     *                          happening on {@link #searchDate} (i.e., starting, ending, or in between) will be included
+     * @param transportMode     Specifies the specific mode of transport to consider when working out distance
+     * @param maxDistance       Specifies the upper bound of distance to filter events by
+     * @param userEventsOnly1
+     * @param activeEventsOnly1
+     * @param searchDate1
      */
 
-    public ListEventsMaxDistance(boolean userEventsOnly, boolean activeEventsOnly, LocalDate searchDate, TransportMode transportMode, double maxDistance) {
+    public ListEventsMaxDistance(boolean userEventsOnly, boolean activeEventsOnly, LocalDate searchDate, TransportMode transportMode, double maxDistance, boolean userEventsOnly1, boolean activeEventsOnly1, LocalDate searchDate1) {
         super(userEventsOnly, activeEventsOnly, searchDate);
         this.transportMode = transportMode;
         this.maxDistance = maxDistance;
+        this.userEventsOnly = userEventsOnly1;
+        this.activeEventsOnly = activeEventsOnly1;
+        this.searchDate = searchDate1;
     }
 
     /**
@@ -57,7 +63,7 @@ public class ListEventsMaxDistance extends ListEventsCommand {
                     Map.of("activeEventsOnly", activeEventsOnly,
                                 "userEventsOnly", true,
                                 "maxDistance", maxDistance,
-                                "transportMode", transportMode);
+                                "transportMode", transportMode));
             eventListResult = null;
             return;
         }
@@ -71,7 +77,7 @@ public class ListEventsMaxDistance extends ListEventsCommand {
                         Map.of("activeEventsOnly", activeEventsOnly,
                                 "userEventsOnly", true,
                                 "maxDistance", maxDistance,
-                                "transportMode", transportMode);
+                                "transportMode", transportMode));
                 eventListResult = null;
                 return;
             }
@@ -107,4 +113,5 @@ public class ListEventsMaxDistance extends ListEventsCommand {
         LIST_EVENTS_MAX_DISTANCE_NOT_LOGGED_IN,
         LIST_EVENTS_MAX_DISTANCE_NO_ADDRESS
     }
+
 }

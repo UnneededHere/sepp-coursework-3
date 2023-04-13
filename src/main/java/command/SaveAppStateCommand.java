@@ -1,15 +1,19 @@
 package command;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.Context;
-import model.Consumer;
-import model.Event;
-import model.Staff;
-import model.User;
+import model.*;
 import state.BookingState;
 import state.EventState;
 import state.UserState;
 import view.IView;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SaveAppStateCommand implements ICommand{
@@ -33,6 +37,30 @@ public class SaveAppStateCommand implements ICommand{
         UserState userState = (UserState) context.getUserState();
         EventState eventState = (EventState) context.getEventState();
         BookingState bookingState = (BookingState) context.getBookingState();
+
+        Map<String, User> userList = userState.getAllUsers();
+        List<Event> eventList = eventState.getAllEvents();
+        Map<Event, List<Booking>> bookingList = null;
+
+        for (Event event : eventList){
+            List<Booking> bookings = bookingState.findBookingsByEventNumber(event.getEventNumber());
+            bookingList.put(event, bookings);
+        }
+
+
+        Map<String, Object> saveList = new HashMap<>();
+        saveList.put("Users", userList);
+        saveList.put("Event", eventList);
+        saveList.put("Booking", bookingList);
+
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("save " + LocalDateTime.now().toString() + ".json"), saveList);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
 

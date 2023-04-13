@@ -41,9 +41,9 @@ public class ListEventsCommand implements ICommand<List<Event>> {
      * @param event {@link Event} object representing the considered event
      * @return Boolean representing if the event fulfills the user preferences
      */
-    private static boolean eventSatisfiesPreferences(Map<String, EventTag> possibleTags, EventTagCollection preferences, Event event) {
+    static boolean eventSatisfiesPreferences(Map<String, EventTag> possibleTags, EventTagCollection preferences, Event event) {
         for (String tagTitle : preferences.tags.keySet()) {
-            if (possibleTags.get(tagTitle) != preferences.tags.get(tagTitle)) {
+            if (possibleTags.get(tagTitle).equals(preferences.tags.get(tagTitle))) {
                 return false;
             }
         }
