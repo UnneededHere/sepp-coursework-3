@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * {@link ListEventsMaxDistance} allows anyone to get a list of {@link Event}s available on the system, within a specified distance of a consumer.
+ * {@link ListEventsMaxDistanceCommand} allows anyone to get a list of {@link Event}s available on the system, within a specified distance of a consumer.
  * Optionally, users can specify a particular {@link LocalDate} to look up events for.
  */
-public class ListEventsMaxDistance extends ListEventsCommand {
+public class ListEventsMaxDistanceCommand extends ListEventsCommand {
 
     private TransportMode transportMode;
     private double maxDistance;
@@ -38,7 +38,7 @@ public class ListEventsMaxDistance extends ListEventsCommand {
      * @param searchDate1
      */
 
-    public ListEventsMaxDistance(boolean userEventsOnly, boolean activeEventsOnly, LocalDate searchDate, TransportMode transportMode, double maxDistance, boolean userEventsOnly1, boolean activeEventsOnly1, LocalDate searchDate1) {
+    public ListEventsMaxDistanceCommand(boolean userEventsOnly, boolean activeEventsOnly, LocalDate searchDate, TransportMode transportMode, double maxDistance, boolean userEventsOnly1, boolean activeEventsOnly1, LocalDate searchDate1) {
         super(userEventsOnly, activeEventsOnly, searchDate);
         this.transportMode = transportMode;
         this.maxDistance = maxDistance;
