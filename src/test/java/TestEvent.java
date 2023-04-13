@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import model.Consumer;
 import model.Event;
 import model.EventStatus;
+import model.EventTagCollection;
 import model.EventType;
 import model.Review;
 
@@ -59,7 +60,8 @@ public class TestEvent extends ConsoleTest{
     @Test
     @DisplayName("testing that the toString method works as intended")
     public void eventToStringTest(){
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
+        EventTagCollection collection = new EventTagCollection();
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),collection);
         Assertions.assertEquals("Event{" +
                 "eventNumber=" + event.getEventNumber() +
                 ", title='" + event.getTitle() + '\'' +
@@ -81,7 +83,8 @@ public class TestEvent extends ConsoleTest{
     @Test
     @DisplayName("testing that the toString method works as intended")
     public void eventToStringTest2(){
-        Event event = new Event(54321,"Test Event",EventType.Music,1000,700,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(1),LocalDateTime.now().plusHours(2),null);
+        EventTagCollection collection = new EventTagCollection();
+        Event event = new Event(54321,"Test Event",EventType.Music,1000,700,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(1),LocalDateTime.now().plusHours(2),collection);
         Assertions.assertEquals("Event{" +
                 "eventNumber=" + event.getEventNumber() +
                 ", title='" + event.getTitle() + '\'' +

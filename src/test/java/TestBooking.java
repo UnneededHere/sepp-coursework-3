@@ -8,6 +8,7 @@ import model.Booking;
 import model.BookingStatus;
 import model.Consumer;
 import model.Event;
+import model.EventTagCollection;
 import model.EventType;
 
 public class TestBooking{
@@ -64,10 +65,11 @@ public class TestBooking{
     @Test
     @DisplayName("testing that the toString method works as intended")
     public void bookingToStringTest(){
+        EventTagCollection collection = new EventTagCollection();
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),collection);
         Booking booking = new Booking(1,consumer,event,1,LocalDateTime.now());
-        Assertions.assertEquals("Booking{status=active, bookingNumber=" + booking.getBookingNumber() + ", booker=John Smith, event=" + event + ", numTickets=1, bookingDateTime=" + event.getStartDateTime() + "}",
+        Assertions.assertEquals("Booking{status=Active, bookingNumber=" + booking.getBookingNumber() + ", booker=John Smith, event=" + event + ", numTickets=1, bookingDateTime=" + event.getStartDateTime() + "}",
         booking.toString(),
         "checks wether toString works correctly");
     }
@@ -75,10 +77,11 @@ public class TestBooking{
     @Test
     @DisplayName("testing that the toString method works as intended")
     public void bookingToStringTest2(){
+        EventTagCollection collection = new EventTagCollection();
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),collection);
         Booking booking = new Booking(52,consumer,event,4,LocalDateTime.now());
-        Assertions.assertEquals("Booking{status=active, bookingNumber=" + booking.getBookingNumber() + ", booker=John Smith, event=" + event + ", numTickets=4, bookingDateTime=" + event.getStartDateTime() + "}",
+        Assertions.assertEquals("Booking{status=Active, bookingNumber=" + booking.getBookingNumber() + ", booker=John Smith, event=" + event + ", numTickets=4, bookingDateTime=" + event.getStartDateTime() + "}",
         booking.toString(),
         "checks wether toString works correctly");
     }

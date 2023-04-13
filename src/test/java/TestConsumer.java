@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import model.Booking;
 import model.Consumer;
 import model.Event;
+import model.EventTagCollection;
 import model.EventType;
 
 public class TestConsumer extends ConsoleTest{
@@ -36,11 +38,14 @@ public class TestConsumer extends ConsoleTest{
     @Test
     @DisplayName("testing that the addBooking method works as intended")
     public void addBookingTest(){
+        EventTagCollection collection = new EventTagCollection();
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),collection);
         Booking booking = new Booking(1,consumer,event,1,LocalDateTime.now());
         consumer.addBooking(booking);
-        Assertions.assertEquals(booking,
+        ArrayList<Booking> bookings = new ArrayList<Booking>();
+        bookings.add(booking);
+        Assertions.assertEquals(bookings,
         consumer.getBookings(),
         "if addBooking works the bookings from the consumer should be just the object 'booking");
     }
@@ -48,11 +53,14 @@ public class TestConsumer extends ConsoleTest{
     @Test
     @DisplayName("testing that the addBooking method works as intended")
     public void addBookingTest2(){
+        EventTagCollection collection = new EventTagCollection();
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),null);
+        Event event = new Event(12345,"Test Event",EventType.Sports,100,100,"55.94368888764689 -3.1888246174917114","description",LocalDateTime.now().plusHours(12),LocalDateTime.now().plusHours(13),collection);
         Booking booking2 = new Booking(1,consumer,event,2,LocalDateTime.now());
+        ArrayList<Booking> bookings = new ArrayList<Booking>();
+        bookings.add(booking2);
         consumer.addBooking(booking2);
-        Assertions.assertEquals(booking2,
+        Assertions.assertEquals(bookings,
         consumer.getBookings(),
         "if addBooking works the bookings from the consumer should be just the object 'booking2");
     }
@@ -61,7 +69,7 @@ public class TestConsumer extends ConsoleTest{
     @DisplayName("testing that the toString method works as intended")
     public void consumerToStringTest(){
         Consumer consumer = new Consumer("John Smith", "johnsmith@gmail.com", "012345678910", "55.94872684464941 -3.199892044473183", "password");
-        Assertions.assertEquals("Consumer{bookings=, name='John Smith\', phoneNumber='012345678910\', address='55.94872684464941 -3.199892044473183\', preferences=}",
+        Assertions.assertEquals("Consumer{bookings=[], name='John Smith\', phoneNumber='012345678910\', address='55.94872684464941 -3.199892044473183\', preferences="+consumer.getPreferences()+"}",
         consumer.toString(),
         "checks wether toString works correctly");
     }
@@ -70,7 +78,7 @@ public class TestConsumer extends ConsoleTest{
     @DisplayName("testing that the toString method works as intended")
     public void consumerToStringTest2(){
         Consumer consumer = new Consumer("Lucy White", "lucywhite@gmail.com", "01987654321", "-3.199892044473183 55.94872684464941", "123456");
-        Assertions.assertEquals("Consumer{bookings=, name='Lucy white\', phoneNumber='01987654321\', address='-3.199892044473183 55.94872684464941\', preferences=}",
+        Assertions.assertEquals("Consumer{bookings=[], name='Lucy white\', phoneNumber='01987654321\', address='-3.199892044473183 55.94872684464941\', preferences="+consumer.getPreferences()+"}",
         consumer.toString(),
         "checks wether toString works correctly");
     }
