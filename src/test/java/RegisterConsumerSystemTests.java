@@ -21,7 +21,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Fred",
                 "Freddyie@gmail.com",
                 "07213123123",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "wordpass"
         ));
 
@@ -40,7 +40,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand(null,
                 "Freddyie@gmail.com",
                 "07213123123",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "wordpass"
         ));
 
@@ -58,7 +58,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Freddy",
                 "Freddyie@gmail.com",
                 null,
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "wordpass"
         ));
 
@@ -76,7 +76,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Freddy",
                 null,
                 "07213123123",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "wordpass"
         ));
 
@@ -94,7 +94,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Freddy",
                 "Freddyie@gmail.com",
                 "07213123123",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 null
         ));
 
@@ -111,7 +111,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Freddy",
                 "Freddyie@gmail.com",
                 "07213123123",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "heehee"
         ));
 
@@ -120,7 +120,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Georgia",
                 "Freddyie@gmail.com",
                 "07213123323",
-                "37 nice street",
+                "55.86440964478519 -4.252880444477458",
                 "teehee"
         ));
 
@@ -138,7 +138,7 @@ public class RegisterConsumerSystemTests extends ConsoleTest{
         controller.runCommand(new RegisterConsumerCommand("Freddy",
                 "Freddyie@gmail.com",
                 "07213123123",
-                "37 nice street",
+                "-89 89",
                 "heehee"
         ));
 

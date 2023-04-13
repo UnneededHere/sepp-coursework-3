@@ -199,7 +199,7 @@ public class CreateEventSystemTests extends ConsoleTest{
                 EventType.Theatre,
                 5,
                 -6,
-                "89 89",
+                "91 91",
                 "selling puppies",
                 LocalDateTime.now().plusHours(10),
                 LocalDateTime.now().plusHours(10 + 1),
