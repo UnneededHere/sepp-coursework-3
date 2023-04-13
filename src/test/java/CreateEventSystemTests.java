@@ -151,7 +151,7 @@ public class CreateEventSystemTests extends ConsoleTest{
                 "Puppies for sale",
                 EventType.Theatre,
                 5,
-                -6,
+                6,
                 "55.86440964478519 -4.252880444477458",
                 "selling puppies",
                 LocalDateTime.now().plusHours(10),
@@ -175,12 +175,12 @@ public class CreateEventSystemTests extends ConsoleTest{
                 "Puppies for sale",
                 EventType.Theatre,
                 5,
-                -6,
+                6,
                 "5 puppy avenue",
                 "selling puppies",
                 LocalDateTime.now().plusHours(10),
                 LocalDateTime.now().plusHours(10 + 1),
-                new EventTagCollection("ONE:TWO")
+                new EventTagCollection()
         ));
 
         stopOutputCaptureAndCompare(
@@ -198,12 +198,12 @@ public class CreateEventSystemTests extends ConsoleTest{
                 "Puppies for sale",
                 EventType.Theatre,
                 5,
-                -6,
+                6,
                 "91 91",
                 "selling puppies",
                 LocalDateTime.now().plusHours(10),
                 LocalDateTime.now().plusHours(10 + 1),
-                new EventTagCollection("ONE:TWO")
+                new EventTagCollection()
         ));
         stopOutputCaptureAndCompare(
                 "CREATE_EVENT_ADDRESS_OUT_OF_RANGE"
